@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>مشغل فيديو حصري</title>
+
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+<style>
+    body{
+        margin:0;
+        font-family:'Segoe UI',sans-serif;
+        background:linear-gradient(135deg,#020202,#0a0a1a,#111,#000);
+        background-size:400% 400%;
+        animation:bgMove 12s infinite alternate;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        color:#fff;
+    }
+
+    @keyframes bgMove{
+        0%{background-position:0 0;}
+        100%{background-position:100% 100%;}
+    }
+
+    .container{
+        width:92%;
+        max-width:900px;
+        position:relative;
+        animation:fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn{
+        from{opacity:0; transform:translateY(20px);}
+        to{opacity:1; transform:translateY(0);}
+    }
+
+    /* بطاقة المعلومات */
+    .info-box{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-top:10px;
+        padding:12px;
+        background:rgba(255,255,255,0.05);
+        border:1px solid rgba(255,255,255,0.08);
+        border-radius:12px;
+        backdrop-filter:blur(6px);
+        animation:float 4s infinite ease-in-out;
+    }
+
+    @keyframes float{
+        0%,100%{transform:translateY(0);}
+        50%{transform:translateY(-4px);}
+    }
+
+    .info-box img{
+        width:55px;
+        height:55px;
+        border-radius:10px;
+        object-fit:cover;
+    }
+
+    .title{
+        font-size:18px;
+        font-weight:bold;
+    }
+
+    .dev{
+        font-size:13px;
+        opacity:0.7;
+    }
+
+    /* زر تخطي المقدمة */
+    .skip-btn{
+        position:absolute;
+        top:15px;
+        left:15px;
+        background:rgba(0,0,0,0.6);
+        backdrop-filter:blur(4px);
+        padding:8px 15px;
+        font-size:15px;
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        z-index:9999;
+        transition:0.3s;
+    }
+    .skip-btn:hover{
+        background:rgba(0,0,0,0.8);
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- المشغل -->
+    <video id="player" playsinline controls></video>
+
+    <!-- زر تخطي المقدمة -->
+    <button id="skipIntro" class="skip-btn"> ⏭  تخطي المقدمة</button>
+
+    <!-- معلومات الفيديو -->
+    <div class="info-box">
+        <img src="https://e.top4top.io/p_3625uyims0.jpg">
+        <div>
+            <div class="title"> حلم اشرف – حلقة 24 </div>
+            <div class="dev">من المطور سجاد أبو سكنية – إهداء إلى ناجي صالح</div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+<script>
+    const intro = "https://stream.mux.com/K4B02VnuKZOvsYVEg3g1hIryqYw94emAom4ccFdOyXkI.m3u8"; 
+    const mainVideo = "https://ok6-31.vkuser.net/video.m3u8?cmd=videoPlayerCdn&expires=1764973122497&srcIp=37.239.231.18&pr=10&srcAg=CHROME_ANDROID&ch=-536166974&ms=95.142.206.35&type=2&sig=MOUI2sbED2Q&ct=8&urls=45.136.22.4%3B45.136.21.26&clientType=0&zs=65&id=9329248635490";
+
+    const player = new Plyr('#player', { ratio:'16:9' });
+    const skipBtn = document.getElementById("skipIntro");
+
+    // تشغيل المقدمة أولًا
+    player.source = {
+        type: 'video',
+        sources: [{ src: intro, type: 'application/x-mpegURL' }]
+    };
+
+    // زر التخطي ظاهر أثناء المقدمة
+    skipBtn.style.display = "block";
+
+    // دالة لتشغيل الفيديو الأساسي فوراً
+    function playMainVideo() {
+        skipBtn.style.display = "none"; 
+        player.stop(); // إيقاف المقدمة
+
+        player.source = {
+            type: 'video',
+            sources: [{ src: mainVideo, type: 'application/x-mpegURL' }]
+        };
+
+        player.once("ready", () => {
+            player.play(); // تشغيل الفيديو الأساسي مباشرة
+        });
+    }
+
+    // عند الضغط على زر تخطي المقدمة
+    skipBtn.addEventListener("click", playMainVideo);
+
+    // عند انتهاء المقدمة أيضًا
+    player.on("ended", playMainVideo);
+</script>
+
+</body>
+</html>

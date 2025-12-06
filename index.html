@@ -97,7 +97,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container ">
 
     <!-- المشغل -->
     <video id="player" playsinline controls></video>
@@ -119,8 +119,8 @@
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
 <script>
-    const intro = "https://stream.mux.com/K4B02VnuKZOvsYVEg3g1hIryqYw94emAom4ccFdOyXkI.m3u8"; 
-    const mainVideo = "https://ok6-31.vkuser.net/video.m3u8?cmd=videoPlayerCdn&expires=1764973122497&srcIp=37.239.231.18&pr=10&srcAg=CHROME_ANDROID&ch=-536166974&ms=95.142.206.35&type=2&sig=MOUI2sbED2Q&ct=8&urls=45.136.22.4%3B45.136.21.26&clientType=0&zs=65&id=9329248635490";
+    const intro = "http://stream.mytvplus.net:7002/sport/ch1/adaptive.m3u8"; 
+    const mainVideo = "http://stream.mytvplus.net:7004/sport/ch3/adaptive.m3u8";
 
     const player = new Plyr('#player', { ratio:'16:9' });
     const skipBtn = document.getElementById("skipIntro");
